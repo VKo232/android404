@@ -119,10 +119,11 @@ public class TrandingRuleActivity extends AppCompatActivity {
 
             tv.setText(stAccountName);
 //            resultsObjects.add(stAccountName);
-
+            String stitle = String.format("%-8s%14s%10s%10s", "TR Name", "Signal", "Share", "Amount");
+            resultsObjects.add(stitle);
             for (int i=0; i<tradingRuleObjList.size(); i++ ) {
                 TradingRuleObj tradingRuleObj = tradingRuleObjList.get(i);
-                String s = String.format("%-8s%10s%10s%10s", tradingRuleObj.getTRname(),"S="+(int)tradingRuleObj.getTRsignal(), "#"+(int)tradingRuleObj.getShare(), "$"+(int) tradingRuleObj.getAmount());
+                String s = String.format("  %-8s%10s%10s%10s", tradingRuleObj.getTRname(),(int)tradingRuleObj.getTRsignal(), (int)tradingRuleObj.getShare(), "$"+(int) tradingRuleObj.getAmount());
                 resultsObjects.add(s);
             }
 
@@ -157,6 +158,13 @@ public class TrandingRuleActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
 
+                if (position == 0) {
+                    return;
+                }
+                if (position-1 < tradingRuleObjList.size()) {
+                    TradingRuleObj tradingRuleObj = tradingRuleObjList.get(position-1);
+
+                }
                 // When clicked, show a toast with the TextView text
                 Toast.makeText(getApplicationContext(),
                         ((TextView) view).getText(), Toast.LENGTH_SHORT).show();

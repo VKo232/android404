@@ -127,9 +127,11 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
             tv.setText(stAccountName);
 //            resultsObjects.add(stAccountName);
 
+            String stitle = String.format("%-8s%14s%10s%10s", "Symbol", "Signal", "Trend", "DirCh");
+            resultsObjects.add(stitle);
             for (int i=0; i<accountStockList.size(); i++ ) {
                 AFstockObj stockObj = accountStockList.get(i);
-                String s = String.format("%-8s%10s%10s%10s", stockObj.getSymbol(),"ST="+(int)stockObj.getShortTerm(), "LT="+(int)stockObj.getLongTerm(), "D="+(int)stockObj.getDirection());
+                String s = String.format("  %-8s%10s%10s%10s", stockObj.getSymbol(),(int)stockObj.getShortTerm(), (int)stockObj.getLongTerm(), (int)stockObj.getDirection());
                 resultsObjects.add(s);
             }
             stockList = (String[]) resultsObjects.toArray(new String[resultsObjects.size()]);
@@ -163,16 +165,18 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-
+                if (position == 0) {
+                    return;
+                }
                 // When clicked, show a toast with the TextView text
                 Toast.makeText(getApplicationContext(),
                         ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
 
-                if (position < accountStockList.size()) {
+                if (position-1 < accountStockList.size()) {
 
                     try {
 
-                        AFstockObj stockObj = accountStockList.get(position);
+                        AFstockObj stockObj = accountStockList.get(position-1);
                         Intent myIntent = new Intent(getApplicationContext(), TrandingRuleActivityHandler.class);
 
                         myIntent.putExtra("customerObjSt", customerObjSt); //Optional parameters
