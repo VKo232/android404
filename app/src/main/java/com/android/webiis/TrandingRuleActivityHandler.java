@@ -141,8 +141,10 @@ public class TrandingRuleActivityHandler extends AppCompatActivity implements Si
 
         try {
 
+
             ArrayList <TradingRuleObj> tradingRuleObjList = signInModel.getTradingRuleObjList();
             if (tradingRuleObjList != null) {
+
                 Intent myIntent = new Intent(getApplicationContext(), TrandingRuleActivity.class);
 
                 myIntent.putExtra("customerObjSt", customerObjSt); //Optional parameters

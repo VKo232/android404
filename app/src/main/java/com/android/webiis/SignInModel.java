@@ -309,6 +309,7 @@ public class SignInModel {
 						return 0;
 
 					case IISWEB_GET_TRANDINGRELELIST:
+
 						setTradingRuleObjList(communicator.getTradingRuleList(mUserName, mAccountId, getmSymbol()));
                         if (getTradingRuleObjList() == null) {
                             return 0;

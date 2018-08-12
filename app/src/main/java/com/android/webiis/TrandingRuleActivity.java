@@ -55,14 +55,14 @@ public class TrandingRuleActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.refresh:
                     try {
-                        Intent myIntent = new Intent(getApplicationContext(), TrandingRuleActivity.class);
+                        Intent myIntent = new Intent(getApplicationContext(), TrandingRuleActivityHandler.class);
 
                         myIntent.putExtra("customerObjSt", customerObjSt); //Optional parameters
                         myIntent.putExtra("accountObjListSt", accountObjListSt); //Optional parameters
                         myIntent.putExtra("accountObjId", accountObj.getID());
 
                         myIntent.putExtra("tradingRuleObjListSt", tradingRuleObjListSt); //Optional parameters
-                        myIntent.putExtra("mAFstockObjSt", mAFstockObjSt); //Optional parameters
+                        myIntent.putExtra("stockObjSt", mAFstockObjSt); //Optional parameters
 
                         startActivity(myIntent);
                     } catch (Exception e) {
