@@ -2,7 +2,7 @@ package com.vpumlmodel.stock;
 
 public class stock {
 
-	com.vpumlmodel.stock.stockInfo[] stockInfo;
+	stockInfo[] stockInfo;
 	private int ID;
 	private String symbol;
 	private String stockName;

@@ -1,9 +1,11 @@
 package com.vpumlmodel.account;
 
+import com.vpumlmodel.afweb.*;
+
 public class account {
 
-	com.vpumlmodel.afweb.customer customer;
-	com.vpumlmodel.account.tradingRule[] tradingRule;
+	customer customer;
+	tradingRule[] tradingRule;
 	private int ID;
 	private String accountName;
 	private int type;

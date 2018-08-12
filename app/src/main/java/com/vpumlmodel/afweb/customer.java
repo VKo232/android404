@@ -1,6 +1,6 @@
 package com.vpumlmodel.afweb;
 
-import com.vpumlmodel.account.account;
+import com.vpumlmodel.account.*;
 
 public class customer {
 

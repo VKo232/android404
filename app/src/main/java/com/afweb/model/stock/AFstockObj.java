@@ -12,7 +12,7 @@ import com.vpumlmodel.stock.stock;
  *
  * @author eddy
  */
-public class AFstockObj extends stock {
+public class AFstockObj extends stock{
     	private AFstockInfo stockInfo;
         
         private  String updateDateD="";

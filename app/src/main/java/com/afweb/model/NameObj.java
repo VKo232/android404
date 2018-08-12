@@ -5,9 +5,8 @@
  */
 package com.afweb.model;
 
-import java.util.regex.Pattern;
-
 import static com.afweb.model.SymbolNameObj.strReplace;
+import java.util.regex.Pattern;
 
 /**
  *

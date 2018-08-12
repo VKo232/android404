@@ -2,7 +2,7 @@ package com.vpumlmodel.stock;
 
 public class stockInfo {
 
-	com.vpumlmodel.stock.stock stock;
+	stock stock;
 	private int ID;
 	private java.sql.Date entryDateDisplay;
 	private long entryDateL;

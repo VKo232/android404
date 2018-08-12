@@ -2,7 +2,7 @@ package com.vpumlmodel.account;
 
 public class transationOrder {
 
-	com.vpumlmodel.account.tradingRule tradingRule;
+	tradingRule tradingRule;
 	private int ID;
 	private String TRname;
 	private int TRsignal;
