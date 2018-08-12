@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.afweb.model.account.AccountObj;
 import com.afweb.model.account.CustomerObj;
 import com.afweb.model.account.TradingRuleObj;
+import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -116,6 +117,12 @@ public class TrandingRuleActivity extends AppCompatActivity {
 
             String accInfo = accountObj.getAccountName();
             String stAccountName = "   Account: "+accInfo +" - "+mAFstockObj.getSymbol()+"\n   "+mAFstockObj.getStockName();;
+            stAccountName += "\n   "+mAFstockObj.getUpdateDateD();
+
+            AFstockInfo stockInfo = mAFstockObj.getStockInfo();
+            if (stockInfo != null) {
+                stAccountName += "\n   "+"O - " + stockInfo.getFopen() + "  C - " + stockInfo.getFclose()  + "  V - " + stockInfo.getVolume();
+            }
 
             tv.setText(stAccountName);
 //            resultsObjects.add(stAccountName);
