@@ -304,6 +304,8 @@ class BackendCommunicatorStub implements BackendCommunicator {
             HttpClient client = new DefaultHttpClient();
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
+
+
             in = new BufferedReader(
                     new InputStreamReader(
                             response.getEntity().getContent()));
