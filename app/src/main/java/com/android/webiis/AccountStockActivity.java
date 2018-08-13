@@ -130,11 +130,11 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
 //            resultsObjects.add(stAccountName);
 
             currentStockName="";
-            String stitle = String.format("%-8s%14s%10s%10s", "Symbol", "Signal", "Trend", "DirCh");
+            String stitle = String.format("%-8s%10s%6s%6s", "Symbol", "Signal", "Trend", "DirCh");
             resultsObjects.add(stitle);
             for (int i=0; i<accountStockList.size(); i++ ) {
                 AFstockObj stockObj = accountStockList.get(i);
-                String s = String.format("  %-8s%10s%10s%10s", stockObj.getSymbol(),(int)stockObj.getTRsignal(), (int)stockObj.getLongTerm(), (int)stockObj.getDirection());
+                String s = String.format("  %-8s%6s%6s%6s", stockObj.getSymbol(),(int)stockObj.getTRsignal(), (int)stockObj.getLongTerm(), (int)stockObj.getDirection());
                 resultsObjects.add(s);
 
                 currentStockName +=","+stockObj.getSymbol().toUpperCase()+",";

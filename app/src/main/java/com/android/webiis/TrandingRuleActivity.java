@@ -127,11 +127,17 @@ public class TrandingRuleActivity extends AppCompatActivity {
             tv.setText(stAccountName);
 
 //            resultsObjects.add(stAccountName);
-            String stitle = String.format("%-8s%14s%10s%10s", "TR Name", "Signal", "Share", "Amount");
+            String stitle = String.format("%-8s%10s%6s%6s", "TR Name", "Signal", "price", "perf");
             resultsObjects.add(stitle);
             for (int i=0; i<tradingRuleObjList.size(); i++ ) {
                 TradingRuleObj tradingRuleObj = tradingRuleObjList.get(i);
-                String s = String.format("  %-8s%10s%10s%10s", tradingRuleObj.getTRname(),(int)tradingRuleObj.getTRsignal(), (int)tradingRuleObj.getShare(), "$"+(int) tradingRuleObj.getAmount());
+
+                String priceSt ="-";
+                if (tradingRuleObj.getShare() >0) {
+                    float price = tradingRuleObj.getAmount() / tradingRuleObj.getShare();
+                    priceSt = ""+price;
+                }
+                String s = String.format("  %-8s%6s%6s%6s", tradingRuleObj.getTRname(),(int)tradingRuleObj.getTRsignal(), priceSt, "0");
                 resultsObjects.add(s);
             }
 
