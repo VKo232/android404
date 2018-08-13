@@ -46,6 +46,8 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
     private String stToastmsg;
 
     private String[] stockList = { ""};
+    private String currentStockName="";
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -127,12 +129,15 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
             tv.setText(stAccountName);
 //            resultsObjects.add(stAccountName);
 
+            currentStockName="";
             String stitle = String.format("%-8s%14s%10s%10s", "Symbol", "Signal", "Trend", "DirCh");
             resultsObjects.add(stitle);
             for (int i=0; i<accountStockList.size(); i++ ) {
                 AFstockObj stockObj = accountStockList.get(i);
                 String s = String.format("  %-8s%10s%10s%10s", stockObj.getSymbol(),(int)stockObj.getTRsignal(), (int)stockObj.getLongTerm(), (int)stockObj.getDirection());
                 resultsObjects.add(s);
+
+                currentStockName +=","+stockObj.getSymbol().toUpperCase()+",";
             }
             stockList = (String[]) resultsObjects.toArray(new String[resultsObjects.size()]);
         } catch (IOException e) {
@@ -274,18 +279,39 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
         Log.i(TAG, s);
 
         if (cancelled == false) {
+
+
             Intent myIntent = new Intent(getApplicationContext(), AccountStockActivityHandler.class);
 
             myIntent.putExtra("customerObjSt", customerObjSt); //Optional parameters
             myIntent.putExtra("accountObjListSt", accountObjListSt); //Optional parameters
             myIntent.putExtra("accountObjId", accountObj.getID());
             String symbol = "" + message;
+
+            String testSymbol =","+symbol.toUpperCase()+",";
             if (tag.equals(PromptDialogFragment.ADD_SYM_CMD)) {
                 myIntent.putExtra(PromptDialogFragment.ADD_SYM_CMD, symbol); //Optional parameters
                 myIntent.putExtra(PromptDialogFragment.DEL_SYM_CMD, "");
+
+                int index = currentStockName.indexOf(testSymbol);
+                if (index > 0) {
+                    // already exist
+                    Toast.makeText(this, "Symbol already added", Toast.LENGTH_LONG).show();
+                    return;
+                }
+
             }else {
                 myIntent.putExtra(PromptDialogFragment.ADD_SYM_CMD, ""); //Optional parameters
                 myIntent.putExtra(PromptDialogFragment.DEL_SYM_CMD, symbol);
+
+                int index = currentStockName.indexOf(testSymbol);
+                if (index > 0) {
+                    ;
+                }   else {
+                    // not found
+                    Toast.makeText(this, "Symbol not found", Toast.LENGTH_LONG).show();
+                    return;
+                }
             }
             startActivity(myIntent);
         }
