@@ -125,6 +125,7 @@ public class TrandingRuleActivity extends AppCompatActivity {
             }
 
             tv.setText(stAccountName);
+
 //            resultsObjects.add(stAccountName);
             String stitle = String.format("%-8s%14s%10s%10s", "TR Name", "Signal", "Share", "Amount");
             resultsObjects.add(stitle);

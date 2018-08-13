@@ -1,5 +1,6 @@
 package com.android.communicator;
 
+import com.afweb.model.LoginObj;
 import com.afweb.model.account.AccountObj;
 import com.afweb.model.account.CustomerObj;
 import com.afweb.model.stock.AFstockObj;
@@ -9,7 +10,7 @@ import java.util.ArrayList;
 public interface BackendCommunicator {
 	boolean postSignIn(String userName, String password) throws InterruptedException;
 
-	public CustomerObj getCustomerObj(String gEmail, String gPass)throws Exception;
+	public LoginObj getCustomerLogin(String gEmail, String gPass)throws Exception;
 	public ArrayList getAccountList(String gUserName, String gPass)throws Exception;
 	public AccountObj getAccountObj(String gUserName, String gAccountId)throws Exception;
 	public ArrayList getAccountStockList(String gUserName, String gAccountId)throws Exception;

@@ -12,7 +12,20 @@ import com.vpumlmodel.account.tradingRule;
  * @author eddy
  */
 public class TradingRuleObj extends tradingRule {
-    	private String symbol;
+
+    public static final String TR_MV = "Trading";
+    public static final int INT_TR_MV = 5;
+
+    public static final String SIM_TR_MV = "Sim_MV";
+    public static final int INT_SIM_TR_MV = 10;
+
+    public static final String SIM_TR_MACD = "Sim_MACD";
+    public static final int INT_SIM_TR_MACD = 11;
+
+    public static final String SIM_TR_RSI = "Sim_RSI";
+    public static final int INT_SIM_TR_RSI = 12;
+
+    private String symbol;
 
     /**
      * @return the symbol

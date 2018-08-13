@@ -5,6 +5,7 @@ import android.database.Observable;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.afweb.model.LoginObj;
 import com.afweb.model.account.AccountObj;
 import com.afweb.model.account.CustomerObj;
 import com.afweb.model.account.TradingRuleObj;
@@ -258,7 +259,12 @@ public class SignInModel {
 
 				switch (getmIISWebfunction()) {
 					case IISWEB_GET_CUSTOMER_SIGNIN:
-						CustomerObj custObj = communicator.getCustomerObj(mUserName, mPassword);
+						LoginObj loginObj = communicator.getCustomerLogin(mUserName, mPassword);
+						if (loginObj == null) {
+							return 0;
+						}
+						CustomerObj custObj = loginObj.getCustObj();
+
 						if (custObj == null) {
 							return 0;
 						}

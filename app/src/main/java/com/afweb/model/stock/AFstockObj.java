@@ -7,15 +7,16 @@ package com.afweb.model.stock;
 
 import com.vpumlmodel.stock.stock;
 
-
 /**
  *
  * @author eddy
  */
-public class AFstockObj extends stock{
-    	private AFstockInfo stockInfo;
-        
-        private  String updateDateD="";
+public class AFstockObj extends stock {
+
+    private AFstockInfo stockInfo;
+    private int TRsignal=0;
+    private String updateDateD = "";
+
     /**
      * @return the stockInfo
      */
@@ -42,5 +43,19 @@ public class AFstockObj extends stock{
      */
     public void setUpdateDateD(String updateDateD) {
         this.updateDateD = updateDateD;
+    }
+
+    /**
+     * @return the TRsignal
+     */
+    public int getTRsignal() {
+        return TRsignal;
+    }
+
+    /**
+     * @param TRsignal the TRsignal to set
+     */
+    public void setTRsignal(int TRsignal) {
+        this.TRsignal = TRsignal;
     }
 }

@@ -4,6 +4,7 @@ import android.util.Log;
 
 
 import com.afweb.model.ConstantKey;
+import com.afweb.model.LoginObj;
 import com.afweb.model.SymbolNameObj;
 import com.afweb.model.account.AccountObj;
 import com.afweb.model.account.CustomerObj;
@@ -40,8 +41,8 @@ class BackendCommunicatorStub implements BackendCommunicator {
     }
 
     @Override
-    public CustomerObj getCustomerObj (String gEmail, String gPass)throws Exception {
-        CustomerObj custObj = null;
+    public LoginObj getCustomerLogin (String gEmail, String gPass)throws Exception {
+        LoginObj loginObj = null;
         String url = ConstantKey.IIS_WEB_BASE_URL+"/cust/login?email="+gEmail+"&pass="+gPass;
 
         String resultString =  StartHTTPrequest(url);
@@ -50,8 +51,8 @@ class BackendCommunicatorStub implements BackendCommunicator {
             if (resultString.length() > 0) {
                 try {
                     ObjectMapper objectMapper = new ObjectMapper();
-                    custObj = objectMapper.readValue(resultString, CustomerObj.class);
-                    return custObj;
+                    loginObj = objectMapper.readValue(resultString, LoginObj.class);
+                    return loginObj;
                 } catch (JsonParseException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();

@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.afweb.model.LoginObj;
 import com.afweb.model.account.AccountObj;
 import com.afweb.model.account.CustomerObj;
 import com.android.communicator.BackendCommunicator;
@@ -332,9 +333,22 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             final BackendCommunicator communicator = communicatorFactory.createBackendCommunicator();
             CustomerObj custObj = null;
             try {
-                custObj = communicator.getCustomerObj(mEmail, mPassword);
+                LoginObj loginObj = communicator.getCustomerLogin(mEmail, mPassword);
+
+                if (loginObj == null) {
+                    Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    myIntent.putExtra("failMsg", "Network failed: Please try again later");
+                    startActivity(myIntent);
+                    return false;
+                }
+                custObj = loginObj.getCustObj();
 
                 if (custObj == null) {
+                    if (loginObj.getWebMsg().getResultID() == 100) {
+                        Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                        myIntent.putExtra("failMsg", "Server upgrading: Please try again later");
+                        startActivity(myIntent);
+                    }
                     return false;
                 }
                 customerObj =custObj;
