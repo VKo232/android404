@@ -123,10 +123,20 @@ public class TrandingRuleActivity extends AppCompatActivity {
 
             AFstockInfo stockInfo = mAFstockObj.getStockInfo();
             if (stockInfo != null) {
+
                 stAccountName += "\n   "+"O - " + stockInfo.getFopen() + "  C - " + stockInfo.getFclose()  + "  V - " + stockInfo.getVolume();
+
+                if (stockInfo != null) {
+                    if (stockInfo.getFopen() > 0) {
+                        float ch = (stockInfo.getFclose() - stockInfo.getFopen()) / stockInfo.getFopen();
+                        String percent= String.format("%.2f", ch*100);
+                        stAccountName += "  " + percent+"%";
+                    }
+                }
             }
 
             tv.setText(stAccountName);
+
             DisplayMetrics dm = new DisplayMetrics();
             this.getWindowManager().getDefaultDisplay().getMetrics(dm);
             int width = dm.widthPixels;
@@ -139,42 +149,38 @@ public class TrandingRuleActivity extends AppCompatActivity {
             double screenInches = Math.sqrt(x+y);
             int screen = (int)(screenInches+0.5);
 
-
             int orientation = Configuration.ORIENTATION_UNDEFINED;
-            if(width==height){
+            if(width ==height){
                 orientation = Configuration.ORIENTATION_SQUARE;
             } else{
-                if(width <height){
+                if(width < height){
                     orientation = Configuration.ORIENTATION_PORTRAIT;
                 }else {
                     orientation = Configuration.ORIENTATION_LANDSCAPE;
                 }
             }
 
-            String formatSize ="%-8s%10s%6s%6s"; // small size
-            if (screen> 4) { // greater then 4 inch
-                formatSize ="%-8s%10s%10s%10s"; // large size
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    formatSize ="%-12s%14s%14s%14s";
-                }
-            }else {
-                formatSize ="%-8s%10s%6s%6s"; // small size
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    formatSize ="%-10s%12s%12s%12s";
-                }
-            }
-//            resultsObjects.add(stAccountName);
-            String stitle = String.format("  "+formatSize, "TR Name", "Signal", "price", "perf");
+            String stitle = getformatFieldLV(screen,orientation,"TR Name", "Signal", "price", "perf", "Per%");
+
             resultsObjects.add(stitle);
             for (int i=0; i<tradingRuleObjList.size(); i++ ) {
                 TradingRuleObj tradingRuleObj = tradingRuleObjList.get(i);
+                String co1 = tradingRuleObj.getTRname();
+                String co2 = (int)tradingRuleObj.getTRsignal()+"";
+                String co3 = "-";
+                String co4 = "0";
+                String co5 = "-";
 
-                String priceSt ="-";
                 if (tradingRuleObj.getShare() >0) {
                     float price = tradingRuleObj.getAmount() / tradingRuleObj.getShare();
-                    priceSt = ""+price;
+                    co3 = String.format("%.2f", price*100);
+
+                    if (stockInfo != null) {
+                        float ch = (stockInfo.getFclose() - price) / stockInfo.getFclose();
+                        co5 = String.format("%.2f", ch*100);
+                    }
                 }
-                String s = String.format("  "+formatSize, tradingRuleObj.getTRname(),(int)tradingRuleObj.getTRsignal(), priceSt, "0");
+                String s = getformatFieldLV(screen,orientation,co1,co2,co3,co4,co5);
                 resultsObjects.add(s);
             }
 
@@ -228,6 +234,28 @@ public class TrandingRuleActivity extends AppCompatActivity {
     }
 
     ////////////////////////////////
+
+    private String getformatFieldLV(int screenSiz, int orientation, String co1, String co2, String co3, String co4, String co5){
+        String formatSize = "";
+        String stTitle = "";
+        if (screenSiz> 4) { // greater then 4 inch
+            formatSize ="%-8s%10s%10s%10s"; // large size
+            stTitle = String.format("  "+formatSize, co1, co2, co3, co4);
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                formatSize ="%-12s%14s%14s%14s%14s";
+                stTitle = String.format("  "+formatSize, co1, co2, co3, co4, co5 );
+            }
+        }else {
+            formatSize ="%-8s%10s%6s%6s"; // small size
+            stTitle = String.format("  "+formatSize, co1, co2, co3, co4);
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                formatSize ="%-10s%12s%12s%12s%12s";
+                stTitle = String.format("  "+formatSize, co1, co2, co3, co4, co5 );
+            }
+        }
+        return stTitle;
+    }
+
 public boolean onCreateOptionsMenu(Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.menu_tradingrule, menu);

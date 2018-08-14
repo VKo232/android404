@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.afweb.model.account.AccountObj;
 import com.afweb.model.account.CustomerObj;
+import com.afweb.model.stock.AFstockInfo;
 import com.afweb.model.stock.AFstockObj;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -126,25 +127,6 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
 
             stToastmsg =getIntent().getStringExtra("Toastmsg");
 
-
-//            Display display = getWindowManager().getDefaultDisplay();
-//
-//// deprecated
-//            int screenHeight = display.getHeight();
-//            int screenWidth = display.getWidth();
-//
-//            Log.i(TAG, "screenHeight = " + screenHeight);
-//            Log.i(TAG, "screenWidth  = " + screenWidth);
-//// pixels, dpi
-//            DisplayMetrics metrics = new DisplayMetrics();
-//            getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//            int heightPixels = metrics.heightPixels;
-//            int widthPixels = metrics.widthPixels;
-//            int densityDpi = metrics.densityDpi;
-//            float xdpi = metrics.xdpi;
-//            float ydpi = metrics.ydpi;
-
-
             DisplayMetrics dm = new DisplayMetrics();
             this.getWindowManager().getDefaultDisplay().getMetrics(dm);
             int width = dm.widthPixels;
@@ -157,12 +139,11 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
             double screenInches = Math.sqrt(x+y);
             int screen = (int)(screenInches+0.5);
 
-
             int orientation = Configuration.ORIENTATION_UNDEFINED;
-            if(width==height){
+            if(width ==height){
                 orientation = Configuration.ORIENTATION_SQUARE;
             } else{
-                if(width <height){
+                if(width < height){
                     orientation = Configuration.ORIENTATION_PORTRAIT;
                 }else {
                     orientation = Configuration.ORIENTATION_LANDSCAPE;
@@ -178,23 +159,25 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
 //            resultsObjects.add(stAccountName);
 
             currentStockName="";
-            String formatSize ="%-8s%10s%6s%6s"; // small size
-            if (screen> 4) { // greater then 4 inch
-                formatSize ="%-8s%10s%10s%10s"; // large size
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    formatSize ="%-12s%14s%14s%14s";
-                }
-            }else {
-                formatSize ="%-8s%10s%6s%6s"; // small size
-                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    formatSize ="%-10s%12s%12s%12s";
-                }
-            }
-            String stitle = String.format("  "+formatSize, "Symbol", "Signal", "Trend", "DirCh");
+
+            String stitle = getformatFieldLV(screen,orientation,"Symbol", "Signal", "Per%", "Trend", "DirCh");
+
             resultsObjects.add(stitle);
             for (int i=0; i<accountStockList.size(); i++ ) {
                 AFstockObj stockObj = accountStockList.get(i);
-                String s = String.format("  "+formatSize, stockObj.getSymbol(),(int)stockObj.getTRsignal(), (int)stockObj.getLongTerm(), (int)stockObj.getDirection());
+                String co1 = stockObj.getSymbol();
+                String co2 = (int)stockObj.getTRsignal()+"";
+                String co4 = (int)stockObj.getLongTerm()+"";
+                String co5 = (int)stockObj.getDirection()+"";
+                AFstockInfo stockInfo = stockObj.getStockInfo();
+                String co3 = "-";
+                if (stockInfo != null) {
+                    if (stockInfo.getFopen() > 0) {
+                        float ch = (stockInfo.getFclose() - stockInfo.getFopen()) / stockInfo.getFopen();
+                        co3 = String.format("%.2f", ch*100);
+                    }
+                }
+                String s = getformatFieldLV(screen,orientation,co1,co2,co3,co4,co5);
                 resultsObjects.add(s);
 
                 currentStockName +=","+stockObj.getSymbol().toUpperCase()+",";
@@ -271,7 +254,26 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
         }
     }
     ////////////////////////
-
+    private String getformatFieldLV(int screenSiz, int orientation, String co1, String co2, String co3, String co4, String co5){
+        String formatSize = "";
+        String stTitle = "";
+        if (screenSiz> 4) { // greater then 4 inch
+            formatSize ="%-8s%10s%10s%10s"; // large size
+            stTitle = String.format("  "+formatSize, co1, co2, co3, co4);
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                formatSize ="%-12s%14s%14s%14s%14s";
+                stTitle = String.format("  "+formatSize, co1, co2, co3, co4, co5 );
+            }
+        }else {
+            formatSize ="%-8s%10s%6s%6s"; // small size
+            stTitle = String.format("  "+formatSize, co1, co2, co3, co4);
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                formatSize ="%-10s%12s%12s%12s%12s";
+                stTitle = String.format("  "+formatSize, co1, co2, co3, co4, co5 );
+            }
+        }
+        return stTitle;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
