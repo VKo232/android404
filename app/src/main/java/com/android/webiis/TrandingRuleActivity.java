@@ -1,6 +1,7 @@
 package com.android.webiis;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -125,9 +127,44 @@ public class TrandingRuleActivity extends AppCompatActivity {
             }
 
             tv.setText(stAccountName);
+            DisplayMetrics dm = new DisplayMetrics();
+            this.getWindowManager().getDefaultDisplay().getMetrics(dm);
+            int width = dm.widthPixels;
+            int height = dm.heightPixels;
+            int dens = dm.densityDpi;
+            double wi = (double) width / (double) dens;
+            double hi = (double) height / (double) dens;
+            double x = Math.pow(wi, 2);
+            double y = Math.pow(hi, 2);
+            double screenInches = Math.sqrt(x+y);
+            int screen = (int)(screenInches+0.5);
 
+
+            int orientation = Configuration.ORIENTATION_UNDEFINED;
+            if(width==height){
+                orientation = Configuration.ORIENTATION_SQUARE;
+            } else{
+                if(width <height){
+                    orientation = Configuration.ORIENTATION_PORTRAIT;
+                }else {
+                    orientation = Configuration.ORIENTATION_LANDSCAPE;
+                }
+            }
+
+            String formatSize ="%-8s%10s%6s%6s"; // small size
+            if (screen> 4) { // greater then 4 inch
+                formatSize ="%-8s%10s%10s%10s"; // large size
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    formatSize ="%-12s%14s%14s%14s";
+                }
+            }else {
+                formatSize ="%-8s%10s%6s%6s"; // small size
+                if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    formatSize ="%-10s%12s%12s%12s";
+                }
+            }
 //            resultsObjects.add(stAccountName);
-            String stitle = String.format("%-8s%10s%6s%6s", "TR Name", "Signal", "price", "perf");
+            String stitle = String.format("  "+formatSize, "TR Name", "Signal", "price", "perf");
             resultsObjects.add(stitle);
             for (int i=0; i<tradingRuleObjList.size(); i++ ) {
                 TradingRuleObj tradingRuleObj = tradingRuleObjList.get(i);
@@ -137,7 +174,7 @@ public class TrandingRuleActivity extends AppCompatActivity {
                     float price = tradingRuleObj.getAmount() / tradingRuleObj.getShare();
                     priceSt = ""+price;
                 }
-                String s = String.format("  %-8s%6s%6s%6s", tradingRuleObj.getTRname(),(int)tradingRuleObj.getTRsignal(), priceSt, "0");
+                String s = String.format("  "+formatSize, tradingRuleObj.getTRname(),(int)tradingRuleObj.getTRsignal(), priceSt, "0");
                 resultsObjects.add(s);
             }
 
