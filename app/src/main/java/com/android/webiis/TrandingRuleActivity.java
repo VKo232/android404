@@ -147,7 +147,6 @@ public class TrandingRuleActivity extends AppCompatActivity {
             double x = Math.pow(wi, 2);
             double y = Math.pow(hi, 2);
             double screenInches = Math.sqrt(x+y);
-            int screen = (int)(screenInches+0.5);
 
             int orientation = Configuration.ORIENTATION_UNDEFINED;
             if(width ==height){
@@ -160,7 +159,7 @@ public class TrandingRuleActivity extends AppCompatActivity {
                 }
             }
 
-            String stitle = getformatFieldLV(screen,orientation,"TR Name", "Signal", "price", "perf", "Per%");
+            String stitle = getformatFieldLV(screenInches,orientation,"TR Name", "Signal", "price", "perf", "Per%");
 
             resultsObjects.add(stitle);
             for (int i=0; i<tradingRuleObjList.size(); i++ ) {
@@ -180,7 +179,7 @@ public class TrandingRuleActivity extends AppCompatActivity {
                         co5 = String.format("%.2f", ch*100);
                     }
                 }
-                String s = getformatFieldLV(screen,orientation,co1,co2,co3,co4,co5);
+                String s = getformatFieldLV(screenInches,orientation,co1,co2,co3,co4,co5);
                 resultsObjects.add(s);
             }
 
@@ -235,10 +234,10 @@ public class TrandingRuleActivity extends AppCompatActivity {
 
     ////////////////////////////////
 
-    private String getformatFieldLV(int screenSiz, int orientation, String co1, String co2, String co3, String co4, String co5){
+    private String getformatFieldLV(double screenSize, int orientation, String co1, String co2, String co3, String co4, String co5){
         String formatSize = "";
         String stTitle = "";
-        if (screenSiz> 4) { // greater then 4 inch
+        if (screenSize> 4.8) { // greater then 4 inch
             formatSize ="%-8s%10s%10s%10s"; // large size
             stTitle = String.format("  "+formatSize, co1, co2, co3, co4);
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
