@@ -100,6 +100,17 @@ class BackendCommunicatorStub implements BackendCommunicator {
 
         return null;
     }
+    @Override
+    public boolean registerCustomer(String gEmail, String gPass, String firstName, String lastName) {
+
+        String url = ConstantKey.IIS_WEB_BASE_URL+ "/cust/add?email=" + gEmail + "&pass="+ gPass+ "&firstName=" +firstName + "&lastName="+lastName;
+        try {
+            String result = StartHTTPrequest(url);
+
+        }catch(Exception e) {
+            return false;
+        }
+    }
 
     @Override
     public AccountObj getAccountObj(String gUserName, String gAccountId)throws Exception {

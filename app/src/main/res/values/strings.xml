@@ -27,4 +27,5 @@
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_tranding_rule">IIS Investment</string>
     <string name="title_activity_customer_acc">CustomerAccActivity</string>
+    <string name="title_activity_register">Register</string>
 </resources>
