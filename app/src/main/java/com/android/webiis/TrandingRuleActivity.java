@@ -237,6 +237,13 @@ public class TrandingRuleActivity extends AppCompatActivity {
     private String getformatFieldLV(double screenSize, int orientation, String co1, String co2, String co3, String co4, String co5){
         String formatSize = "";
         String stTitle = "";
+
+        if (screenSize> 6.5) { // large screen
+            formatSize ="%-12s%14s%14s%14s%14s";
+            stTitle = String.format("  "+formatSize, co1, co2, co3, co4, co5 );
+            return stTitle;
+        }
+        
         if (screenSize> 4.8) { // greater then 4 inch
             formatSize ="%-8s%10s%10s%10s"; // large size
             stTitle = String.format("  "+formatSize, co1, co2, co3, co4);
