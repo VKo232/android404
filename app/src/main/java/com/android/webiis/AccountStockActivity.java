@@ -137,7 +137,8 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
             double x = Math.pow(wi, 2);
             double y = Math.pow(hi, 2);
             double screenInches = Math.sqrt(x+y);
-            int screen = (int)(screenInches+0.5);
+
+            String screenSt = String.format("%.2f", screenInches);
 
             int orientation = Configuration.ORIENTATION_UNDEFINED;
             if(width ==height){
@@ -149,7 +150,7 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
                     orientation = Configuration.ORIENTATION_LANDSCAPE;
                 }
             }
-            stToastmsg += " H=" + height + " W=" + width + " S=" + screen + " O=" + orientation;
+            stToastmsg += " H=" + height + " W=" + width + " S=" + screenSt + " O=" + orientation;
 
 
             String accInfo = accountObj.getAccountName();
@@ -160,7 +161,7 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
 
             currentStockName="";
 
-            String stitle = getformatFieldLV(screen,orientation,"Symbol", "Signal", "Per%", "Trend", "DirCh");
+            String stitle = getformatFieldLV(screenInches,orientation,"Symbol", "Signal", "Per%", "Trend", "DirCh");
 
             resultsObjects.add(stitle);
             for (int i=0; i<accountStockList.size(); i++ ) {
@@ -177,7 +178,7 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
                         co3 = String.format("%.2f", ch*100);
                     }
                 }
-                String s = getformatFieldLV(screen,orientation,co1,co2,co3,co4,co5);
+                String s = getformatFieldLV(screenInches,orientation,co1,co2,co3,co4,co5);
                 resultsObjects.add(s);
 
                 currentStockName +=","+stockObj.getSymbol().toUpperCase()+",";
@@ -254,10 +255,17 @@ public class AccountStockActivity extends AppCompatActivity implements OnDialogD
         }
     }
     ////////////////////////
-    private String getformatFieldLV(int screenSiz, int orientation, String co1, String co2, String co3, String co4, String co5){
+    private String getformatFieldLV(double screenSize, int orientation, String co1, String co2, String co3, String co4, String co5){
         String formatSize = "";
         String stTitle = "";
-        if (screenSiz> 4) { // greater then 4 inch
+
+        if (screenSize> 6.5) { // large screen
+            formatSize ="%-12s%14s%14s%14s%14s";
+            stTitle = String.format("  "+formatSize, co1, co2, co3, co4, co5 );
+            return stTitle;
+        }
+
+        if (screenSize> 4.8) { // greater then 4 inch
             formatSize ="%-8s%10s%10s%10s"; // large size
             stTitle = String.format("  "+formatSize, co1, co2, co3, co4);
             if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
