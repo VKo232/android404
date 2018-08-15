@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public interface BackendCommunicator {
 	boolean postSignIn(String userName, String password) throws InterruptedException;
 
-	public boolean registerCustomer(String gEmail, String gPass, String firstName, String lastName);
+	public int registerCustomer(String gEmail, String gPass, String firstName, String lastName);
 	public LoginObj getCustomerLogin(String gEmail, String gPass)throws Exception;
 	public ArrayList getAccountList(String gUserName, String gPass)throws Exception;
 	public AccountObj getAccountObj(String gUserName, String gAccountId)throws Exception;
