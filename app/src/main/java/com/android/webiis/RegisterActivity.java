@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -361,12 +362,24 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
 
             final BackendCommunicator communicator = communicatorFactory.createBackendCommunicator();
             try {
-                //return communicator.registerCustomer(mEmail,mPassword, mFirstName,mLastName);
+                int result = communicator.registerCustomer(mEmail,mPassword, mFirstName,mLastName);
+                switch(result) {
+                    case 0&-1: Toast.makeText(getApplicationContext(), "Unknown Error", Toast.LENGTH_LONG).show();
+                    Log.d("doInBackground", "0 or 1");
+                    return true;
+                    case 1: Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_LONG).show();
+                        return false;
+                    case 2: mEmailView.setError("This email already exists");
+                    return true;
+                    case 100: Toast.makeText(getApplicationContext(), "Unable to connect", Toast.LENGTH_LONG).show();
+                    return true;
+                    default:return true;
 
-                return true;
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
-                return false;
+                return true;
             }
 
             // TODO: register the new account here.
@@ -379,9 +392,8 @@ public class RegisterActivity extends AppCompatActivity implements LoaderCallbac
             showProgress(false);
 
             if (success) {
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 finish();
-            } else {
-                Toast.makeText(getApplicationContext(), "An error has occured", Toast.LENGTH_LONG).show();
             }
         }
 

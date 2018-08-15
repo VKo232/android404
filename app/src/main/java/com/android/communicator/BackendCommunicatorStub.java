@@ -101,14 +101,16 @@ class BackendCommunicatorStub implements BackendCommunicator {
         return null;
     }
     @Override
-    public boolean registerCustomer(String gEmail, String gPass, String firstName, String lastName) {
+    public int registerCustomer(String gEmail, String gPass, String firstName, String lastName) {
 
         String url = ConstantKey.IIS_WEB_BASE_URL+ "/cust/add?email=" + gEmail + "&pass="+ gPass+ "&firstName=" +firstName + "&lastName="+lastName;
         try {
             String result = StartHTTPrequest(url);
+            LoginObj lo = new ObjectMapper().readValue(result,LoginObj.class);
 
+            return lo.getWebMsg().getResultID();
         }catch(Exception e) {
-            return false;
+            return -1;
         }
     }
 

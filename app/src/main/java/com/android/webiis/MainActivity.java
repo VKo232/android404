@@ -81,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
                     myIntent.putExtra("gLogin", "guest");
                     myIntent.putExtra("gPass", "guest");
                     startActivity(myIntent);
+                } else if(position == 2) {
+                    Intent myIntent = new Intent(getApplicationContext(), RegisterActivity.class);
+                    startActivity(myIntent);
                 }
             }
         });
